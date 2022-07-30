@@ -11,6 +11,7 @@ const AnecdotesForm = () => {
         event.target.anecdote.value = ''
         dispatch(createAnecdote(content))
     }
+
     return (
         <div>
             <h2>create new</h2>

@@ -8,11 +8,12 @@ const sortByLikes = (a, b) => {
 const AnecdotesList = () => {
     const dispatch = useDispatch()
 
-    const anecdotes = useSelector(state => state).sort(sortByLikes)
+    const anecdotes = useSelector(state => state.anecdotes.sort(sortByLikes))
 
     const voteHandler = (id) => {
         dispatch(toggleVote(id))
     }
+
     return (
         <div>
             {anecdotes.map(anecdote =>
