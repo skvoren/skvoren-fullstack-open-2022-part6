@@ -1,4 +1,5 @@
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
+import {createSlice} from "@reduxjs/toolkit";
 
 const anecdotesAtStart = [
   'If it hurts, do it more often',
@@ -21,28 +22,20 @@ const asObject = (anecdote) => {
 
 const initialState = anecdotesAtStart.map(asObject)
 
-export const toggleVote = id => {
-  return {
-    type: 'VOTE',
-    id: id
-  }
-}
-
-export const createAnecdote = content => {
-  return {
-    type: 'NEW ANECDOTE',
-    data: {
-      content: content,
-      votes: 0,
-      id: generateUniqueID()
-    }
-  }
-}
-
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case "VOTE": {
-      const id = action.id
+const anecdoteSlice = createSlice({
+  name: 'anecdotes',
+  initialState,
+  reducers: {
+    createAnecdote(state, action) {
+      const newAnecdote = ({
+        content: action.payload,
+        votes: 0,
+        id: generateUniqueID()
+      })
+      return [...state, newAnecdote]
+    },
+    vote(state, action) {
+      const id = action.payload
       const anecdoteToChange = state.find(a => a.id === id)
       let votes = anecdoteToChange.votes
       votes++
@@ -50,20 +43,10 @@ const reducer = (state = initialState, action) => {
         ...anecdoteToChange, votes: votes
       }
       return state.map(anecdote =>
-      anecdote.id !== id ? anecdote : changedAnecdote)
+          anecdote.id !== id ? anecdote : changedAnecdote)
     }
-    case "NEW ANECDOTE": {
-      const newAnecdote = ({
-        content: action.data.content,
-        votes: action.data.votes,
-        id: action.data.id
-      })
-
-      return [...state, newAnecdote]
-    }
-    default:
-      return state
   }
-}
+})
 
-export default reducer
+export const {createAnecdote, vote} = anecdoteSlice.actions
+export default anecdoteSlice.reducer
