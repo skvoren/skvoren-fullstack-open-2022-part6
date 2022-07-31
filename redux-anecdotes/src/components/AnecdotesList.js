@@ -9,8 +9,10 @@ const AnecdotesList = () => {
 
     sortedAnecdotes.sort((a, b) => b.votes - a.votes)
 
-    const voteHandler = (id) => {
+    const voteHandler = (id, content) => {
         dispatch({type: 'anecdotes/vote', payload: id})
+        dispatch({type: 'notification/showVoteNotification', payload: content})
+        setTimeout(() => {dispatch({type: 'notification/hideNotification'})}, 5000)
     }
 
     return (
@@ -22,7 +24,7 @@ const AnecdotesList = () => {
                     </div>
                     <div>
                         has {anecdote.votes}
-                        <button onClick={() => {voteHandler(anecdote.id)}}>vote</button>
+                        <button onClick={() => {voteHandler(anecdote.id, anecdote.content)}}>vote</button>
                     </div>
                 </div>
             )}
