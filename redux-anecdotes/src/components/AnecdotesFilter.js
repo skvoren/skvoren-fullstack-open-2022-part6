@@ -15,8 +15,13 @@ const AnecdotesFilter = () => {
         }
     }
 
+    const style = {
+        marginTop: 10,
+        marginBottom: 10
+    }
+
     return (
-        <div>
+        <div style={style}>
             <input name="anecdotes-filter" onChange={filterChangeHandler}/>
         </div>
     )
