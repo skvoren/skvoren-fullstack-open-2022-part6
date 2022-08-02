@@ -1,17 +1,15 @@
-import {useDispatch} from "react-redux";
+import {connect} from "react-redux";
+import {clearFilter, setFilter} from "../reducers/filterReducer";
 
-const AnecdotesFilter = () => {
-
-    const dispatch = useDispatch()
+const AnecdotesFilter = (props) => {
 
     const filterChangeHandler = (event) => {
         event.preventDefault()
         const value = event.target.value
-        console.log(`value: ${value}`)
         if (value === '') {
-            dispatch({type: 'filter/clearFilter'})
+            props.clearFilter()
         } else {
-            dispatch({type: 'filter/setFilter', payload: value})
+            props.setFilter(value)
         }
     }
 
@@ -27,4 +25,12 @@ const AnecdotesFilter = () => {
     )
 }
 
-export default AnecdotesFilter
+const mapDispatchToProps = {
+    clearFilter,
+    setFilter
+}
+
+
+const ConnectedAnecdotesFilter = connect(null, mapDispatchToProps)(AnecdotesFilter)
+
+export default ConnectedAnecdotesFilter

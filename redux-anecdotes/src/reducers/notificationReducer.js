@@ -20,4 +20,6 @@ const notificationSlice = createSlice({
     }
 })
 
+export const {showVoteNotification, showCreateAnecdoteNotification, hideNotification} = notificationSlice.actions
+
 export default notificationSlice.reducer
