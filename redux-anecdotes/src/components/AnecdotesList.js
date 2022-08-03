@@ -2,8 +2,11 @@ import {connect} from "react-redux";
 import AnecdotesFilter from "./AnecdotesFilter";
 import {vote} from "../reducers/anecdoteReducer";
 import {hideNotification, showVoteNotification} from "../reducers/notificationReducer";
+import {getNotificationTimeOut, setNotificationTimeOut} from "./NotificationTimeout";
 
 const AnecdotesList = (props) => {
+
+    let timeOut = getNotificationTimeOut()
 
     const anecdotes = props.filter !== '' ? props.anecdotes.filter(anecdote => anecdote.content.includes(props.filter))
         : props.anecdotes
@@ -15,7 +18,10 @@ const AnecdotesList = (props) => {
     const voteHandler = (id, content) => {
         props.vote(id)
         props.showVoteNotification(content)
-        setTimeout(() => props.hideNotification, 5000)
+        if (timeOut > 0) {
+            clearTimeout(timeOut)
+        }
+        setNotificationTimeOut(setTimeout(() => props.hideNotification(), 5000))
     }
 
     return (
@@ -39,7 +45,8 @@ const AnecdotesList = (props) => {
 const mapStateToProps = (state) => {
     return {
         anecdotes: state.anecdotes,
-        filter: state.filter
+        filter: state.filter,
+        notification: state.notification
     }
 }
 

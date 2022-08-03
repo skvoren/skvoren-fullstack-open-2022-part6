@@ -1,8 +1,11 @@
 import { connect } from "react-redux";
 import {createAnecdote} from "../reducers/anecdoteReducer";
 import {hideNotification, showCreateAnecdoteNotification} from "../reducers/notificationReducer";
+import {getNotificationTimeOut, setNotificationTimeOut} from "./NotificationTimeout";
 
 const AnecdotesForm = (props) => {
+
+    let timeOut = getNotificationTimeOut()
 
     const addAnecdote = async (event) => {
         event.preventDefault()
@@ -10,7 +13,10 @@ const AnecdotesForm = (props) => {
         event.target.anecdote.value = ''
         props.createAnecdote(content)
         props.showCreateAnecdoteNotification(content)
-        setTimeout(() => props.hideNotification(content), 5000)
+        if (timeOut > 0) {
+            clearTimeout(timeOut)
+        }
+        setNotificationTimeOut(setTimeout(() => props.hideNotification(), 5000))
     }
 
     return (

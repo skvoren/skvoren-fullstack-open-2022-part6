@@ -7,15 +7,15 @@ const notificationSlice = createSlice({
     initialState,
     reducers: {
         showVoteNotification(state, action) {
-            const message = `you voted "${action.payload}"`
-            return [message, ...state]
+                const message = `you voted "${action.payload}"`
+                return [message]
         },
         showCreateAnecdoteNotification(state, action) {
-            const message = `created anecdote "${action.payload}"`
-            return [message, ...state]
+                const message = `created anecdote "${action.payload}"`
+                return [message]
         },
-        hideNotification(state) {
-            return state.filter(message => message === '')
+        hideNotification(state, action) {
+            return initialState
         }
     }
 })
